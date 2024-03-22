@@ -8,14 +8,41 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var inputText = ""
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            ZStack{
+                Color.orange.edgesIgnoringSafeArea(.all)
+                Text("ホーム")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                    .background(Color.orange)
+                    .padding()
+            }.frame(height: 50)
+            // ここはもう少しデザインをカスタマイズ
+            TextField("キーワード",text: $inputText,prompt: Text("キーワードを入力してください"))
+                .padding()
+            
+            
+            Spacer()
+            
+            HStack {
+                Spacer()
+                
+                Button(action: {
+                    // ボタンがタップされたときのアクションを追加します
+                }) {
+                    Image(systemName: "plus.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.orange)
+                        .clipShape(Circle())
+                }
+                .padding()
+            }
         }
-        .padding()
     }
 }
 

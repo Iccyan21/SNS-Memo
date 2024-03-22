@@ -11,6 +11,8 @@
 		471E47222BABF511008B0AE7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47212BABF511008B0AE7 /* ContentView.swift */; };
 		471E47242BABF512008B0AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 471E47232BABF512008B0AE7 /* Assets.xcassets */; };
 		471E47272BABF512008B0AE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 471E47262BABF512008B0AE7 /* Preview Assets.xcassets */; };
+		471E472E2BABF9ED008B0AE7 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E472D2BABF9ED008B0AE7 /* TabBarView.swift */; };
+		471E47302BAC007F008B0AE7 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E472F2BAC007F008B0AE7 /* SettingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		471E47212BABF511008B0AE7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		471E47232BABF512008B0AE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		471E47262BABF512008B0AE7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		471E472D2BABF9ED008B0AE7 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		471E472F2BAC007F008B0AE7 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,8 @@
 				471E47212BABF511008B0AE7 /* ContentView.swift */,
 				471E47232BABF512008B0AE7 /* Assets.xcassets */,
 				471E47252BABF512008B0AE7 /* Preview Content */,
+				471E472D2BABF9ED008B0AE7 /* TabBarView.swift */,
+				471E472F2BAC007F008B0AE7 /* SettingView.swift */,
 			);
 			path = "SNS-Memo";
 			sourceTree = "<group>";
@@ -138,6 +144,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				471E47222BABF511008B0AE7 /* ContentView.swift in Sources */,
+				471E47302BAC007F008B0AE7 /* SettingView.swift in Sources */,
+				471E472E2BABF9ED008B0AE7 /* TabBarView.swift in Sources */,
 				471E47202BABF511008B0AE7 /* SNS_MemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
