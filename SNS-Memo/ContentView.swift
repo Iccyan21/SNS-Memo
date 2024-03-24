@@ -22,6 +22,73 @@ struct ContentView: View {
             // ここはもう少しデザインをカスタマイズ
             TextField("キーワード",text: $inputText,prompt: Text("キーワードを入力してください"))
                 .padding()
+            // ここをfor文で回して表示
+            HStack {
+                Image(systemName: "person")
+                    .resizable()
+                    .padding()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                    .shadow(radius: 3)
+                
+                
+                VStack(alignment: .leading) {
+                    Text("織田信長")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    Text("本能寺集合で")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                Spacer()
+            }.padding()
+            
+            HStack {
+                Image(systemName: "person")
+                    .resizable()
+                    .padding()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                    .shadow(radius: 3)
+                
+                
+                VStack(alignment: .leading) {
+                    Text("徳川家康")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    Text("今日きびい")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                Spacer()
+            }.padding()
+            
+            HStack {
+                Image(systemName: "person")
+                    .resizable()
+                    .padding()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                    .shadow(radius: 3)
+                
+                
+                VStack(alignment: .leading) {
+                    Text("羽柴秀吉")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    Text("光秀後は頼むわ")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                Spacer()
+            }.padding()
+            
             
             
             Spacer()
