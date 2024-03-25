@@ -14,6 +14,7 @@
 		471E472E2BABF9ED008B0AE7 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E472D2BABF9ED008B0AE7 /* TabBarView.swift */; };
 		471E47302BAC007F008B0AE7 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E472F2BAC007F008B0AE7 /* SettingView.swift */; };
 		471E47322BAF3001008B0AE7 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47312BAF3001008B0AE7 /* MemoView.swift */; };
+		471E47342BB00BDC008B0AE7 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47332BB00BDC008B0AE7 /* CreateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		471E472D2BABF9ED008B0AE7 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		471E472F2BAC007F008B0AE7 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		471E47312BAF3001008B0AE7 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
+		471E47332BB00BDC008B0AE7 /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				471E472D2BABF9ED008B0AE7 /* TabBarView.swift */,
 				471E472F2BAC007F008B0AE7 /* SettingView.swift */,
 				471E47312BAF3001008B0AE7 /* MemoView.swift */,
+				471E47332BB00BDC008B0AE7 /* CreateView.swift */,
 			);
 			path = "SNS-Memo";
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 				471E47222BABF511008B0AE7 /* ContentView.swift in Sources */,
 				471E47302BAC007F008B0AE7 /* SettingView.swift in Sources */,
 				471E472E2BABF9ED008B0AE7 /* TabBarView.swift in Sources */,
+				471E47342BB00BDC008B0AE7 /* CreateView.swift in Sources */,
 				471E47202BABF511008B0AE7 /* SNS_MemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,7 +20,6 @@ struct MemoView: View {
                         // 戻るボタンのアクション
                     }) {
                         HStack {
-                            Image(systemName: "chevron.left")
                             Text("トークルーム")
                         }
                         .foregroundColor(.white)
@@ -43,7 +42,7 @@ struct MemoView: View {
                     }
                 }
                 .padding()
-                .background(Color.blue)
+                .background(Color.green)
                 .foregroundColor(.white)
                 .font(.title2)
                 
