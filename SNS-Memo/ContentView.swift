@@ -46,6 +46,7 @@ struct ContentView: View {
                         Spacer()
                     }.padding()
                 }
+                
                 NavigationLink(destination: MemoView()) {
                     HStack {
                         Image(systemName: "person")
@@ -96,10 +97,7 @@ struct ContentView: View {
                 
                 HStack {
                     Spacer()
-                    
-                    Button(action: {
-                        // ボタンがタップされたときのアクションを追加します
-                    }) {
+                    NavigationLink(destination: CreateView()) {
                         Image(systemName: "plus.circle")
                             .resizable()
                             .frame(width: 50, height: 50)
@@ -108,7 +106,7 @@ struct ContentView: View {
                             .background(Color.orange)
                             .clipShape(Circle())
                     }
-                    .padding()
+                    .padding() // 必要に応じてパディングを調整
                 }
             }
         }
