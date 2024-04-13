@@ -7,9 +7,17 @@
 
 import SwiftUI
 import PhotosUI
+import SwiftData
 
 struct CreateView: View {
-    @State var inputText = ""
+    @Environment(\.modelContext) var model
+    @Environment(\.dismiss) var dismiss
+    
+    @State private var room_name: String = ""
+    
+    @State private var item: PhotosPickerItem?
+    @State private var room_image: Data?
+    
     var body: some View {
         VStack{
             ZStack{
@@ -21,24 +29,28 @@ struct CreateView: View {
                     .padding()
             }.frame(height: 50)
             
-            Image("profile_pic") // Replace "profile_pic" with your image name
-                .resizable()
-                .scaledToFill()
-                .frame(width: 100, height: 100)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                .shadow(radius: 10)
-                .padding()
+            Spacer()
             
-            TextField("キーワード", text: $inputText, prompt: Text("キーワードを入力してください"))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            PhotosPicker(selection: self.$item, matching: .images,label: {
+                if let data = self.room_image, let uiImage = UIImage(data: data) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .clipShape(Circle())
+                        .frame(width: 60, height: 60)
+                } else {
+                    Image(systemName: "photo.circle.fill")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                        .foregroundStyle(.secondary)
+                }
+            })
+            TextField( "ルーム名", text: self.$room_name)
                 .padding()
-            
             Spacer()
             
             // 送信ボタン
             Button(action: {
-                
+                addData()
             }) {
                 Text("送信")
                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -53,6 +65,15 @@ struct CreateView: View {
             
         }
         Spacer()
+        
+        
+    }
+    func addData() {
+        let new = Room(room_name: self.room_name,room_image: self.room_image)
+        self.model.insert(new)
+        try! self.model.save()
+        
+        dismiss()
     }
 }
 
