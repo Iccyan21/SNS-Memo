@@ -16,4 +16,7 @@ struct SNS_MemoApp: App {
                 .modelContainer(for: [Room.self,Memo.self])
         }
     }
+    init() {
+        print(URL.applicationSupportDirectory.path(percentEncoded: false))
+    }
 }

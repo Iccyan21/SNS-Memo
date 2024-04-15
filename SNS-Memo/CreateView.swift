@@ -44,6 +44,19 @@ struct CreateView: View {
                         .foregroundStyle(.secondary)
                 }
             })
+            .onChange(of: item) { newItem in
+                guard let newItem = newItem else { return }
+                
+                newItem.loadTransferable(type: Data.self) { result in
+                    switch result {
+                    case .success(let data):
+                        self.room_image = data
+                    case .failure(let error):
+                        print("Error loading image: \(error)")
+                    }
+                }
+            }
+            
             TextField( "ルーム名", text: self.$room_name)
                 .padding()
             Spacer()

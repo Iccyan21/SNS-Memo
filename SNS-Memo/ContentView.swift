@@ -36,7 +36,16 @@ struct ContentView: View {
                         }
                     } else {
                         ForEach(rooms){ room in
-                            Text(room.room_name)  // 修正部分
+                            HStack{
+                                Image(uiImage: UIImage(data: room.room_image!)!)
+                                    .resizable()
+                                    .clipShape(Circle())
+                                    .frame(width: 75, height: 75)
+                                
+                                VStack{
+                                    Text(room.room_name)
+                                }
+                            }
                         }
                         
                     }
