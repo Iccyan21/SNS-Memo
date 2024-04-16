@@ -10,12 +10,24 @@ import SwiftData
 import PhotosUI
 
 
-struct MemoView: View {
-    @Bindable var memo: Room
-    @State private var show: Bool = false
-    @State private var messageText: String = ""
-    @State private var text = ""
+class MemoViewModel: ObservableObject {
+    @Published var memo: Room
+    @Published var text: String = ""
     @State private var sendTime = Date()
+    
+    init(memo: Room) {
+        self.memo = memo
+    }
+    
+    func addMemo() {
+        let newMemo = Memo(text: self.text, sendTime: Date())
+        self.memo.memo.append(newMemo)
+        self.text = "" // テキストフィールドをクリア
+    }
+}
+
+struct MemoView: View {
+    @StateObject var viewModel: MemoViewModel
     
     var body: some View {
         ZStack{
@@ -23,30 +35,20 @@ struct MemoView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 HStack {
-                    // ここはナビゲーションでどうにかなるかも
-                    Button(action: {
-                        // 戻るボタンのアクション
-                    }) {
-                        HStack {
-                            Text("トークルーム")
-                        }
-                        .foregroundColor(.white)
+                    Button("トークルーム") {
+                        // 以前はここに戻るボタンのアクションがあるかもしれませんが、ナビゲーションリンクの使用を推奨します
                     }
-                    
+                    .foregroundColor(.white)
                     Spacer()
-                    
                     Button(action: {
                         // 検索アクション
                     }) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.white)
+                        Image(systemName: "magnifyingglass").foregroundColor(.white)
                     }
-                    
                     Button(action: {
                         // オプションアクション
                     }) {
-                        Image(systemName: "ellipsis")
-                            .foregroundColor(.white)
+                        Image(systemName: "ellipsis").foregroundColor(.white)
                     }
                 }
                 .padding()
@@ -54,31 +56,31 @@ struct MemoView: View {
                 .foregroundColor(.white)
                 .font(.title2)
                 
-                
-                
                 HStack{
-                    
                     Spacer()
-                    VStack{
-                        ForEach(memo.memo){ memo in
-                            Text(memo.text)
-                                .padding(.all, 10)
-                                .background(Color.green)
-                                .cornerRadius(15)
-                                .foregroundColor(.white)
-                            Text(memo.sendTime, style: .time)
-                                .padding(.all, 10)
-                                .font(.subheadline)
-                            
-                        }
-                    }
                     
-                }.padding()
+                    VStack {
+                        ForEach(viewModel.memo.memo) { memo in
+                            VStack(alignment: .leading) {
+                                Text(memo.text)
+                                    .padding()
+                                    .background(Color.green)
+                                    .cornerRadius(15)
+                                    .foregroundColor(.white)
+                                Text(memo.sendTime, style: .time)
+                                    .font(.subheadline)
+                            }
+                        }
+                    }.padding()
+                }
+                
+                
+                
                 
                 Spacer()
                 
                 HStack {
-                    TextField("メッセージを入力", text: $text)
+                    TextField("メッセージを入力", text: $viewModel.text)
                         .padding(10)
                         .background(Color.white)
                         .cornerRadius(20)
@@ -88,9 +90,7 @@ struct MemoView: View {
                         )
                         .padding(.horizontal, 4)
                     
-                    Button(action: {
-                        addMemo()
-                    }) {
+                    Button(action: viewModel.addMemo) {
                         Image(systemName: "arrow.up.circle.fill")
                             .resizable()
                             .frame(width: 40, height: 40)
@@ -105,12 +105,6 @@ struct MemoView: View {
                 .background(Color(red: 0.875, green: 0.961, blue: 0.930))
             }
         }
-    }
-    func addMemo(){
-        let new = Memo(text: self.text, sendTime: .now)
-        memo.memo.append(new)
-        
-        
     }
 }
 

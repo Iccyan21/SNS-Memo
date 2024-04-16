@@ -36,7 +36,7 @@ struct ContentView: View {
                         }
                     } else {
                         ForEach(rooms){ room in
-                            NavigationLink(destination: MemoView(memo: room)){
+                            NavigationLink (destination: MemoView(viewModel: MemoViewModel(memo: room))){
                                 HStack{
                                     Image(uiImage: UIImage(data: room.room_image!)!)
                                         .resizable()
@@ -80,4 +80,3 @@ struct ContentView: View {
     ContentView()
         .modelContainer(for: [Room.self,Memo.self])
 }
-

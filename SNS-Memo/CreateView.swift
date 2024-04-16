@@ -9,18 +9,50 @@ import SwiftUI
 import PhotosUI
 import SwiftData
 
+class CreateViewModel: ObservableObject {
+    var model: ModelContext?
+    @Published var roomName: String = ""
+    @Published var roomImage: Data?
+    @Published var item: PhotosPickerItem?
+    
+    // ビューモデルにモデルコンテキストを設定するためのメソッド。@Environmentから渡されたmodelContextを受け取り、内部プロパティに設定
+    
+    func setup(model: ModelContext) {
+        self.model = model
+    }
+    
+    func addData() {
+        guard let model = model else { return }
+        let newRoom = Room(room_name: roomName, room_image: roomImage)
+        model.insert(newRoom)
+        try! model.save()
+    }
+    // 写真の読み込み
+    func loadImage(for item: PhotosPickerItem?) {
+        guard let item = item else { return }
+        
+        item.loadTransferable(type: Data.self) { result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self.roomImage = data
+                }
+            case .failure(let error):
+                print("Error loading image: \(error)")
+            }
+        }
+    }
+}
+
+
 struct CreateView: View {
-    @Environment(\.modelContext) var model
+    @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
-    
-    @State private var room_name: String = ""
-    
-    @State private var item: PhotosPickerItem?
-    @State private var room_image: Data?
+    @StateObject private var viewModel = CreateViewModel()
     
     var body: some View {
-        VStack{
-            ZStack{
+        VStack {
+            ZStack {
                 Color.orange.edgesIgnoringSafeArea(.all)
                 Text("作成")
                     .font(.largeTitle)
@@ -31,8 +63,8 @@ struct CreateView: View {
             
             Spacer()
             
-            PhotosPicker(selection: self.$item, matching: .images,label: {
-                if let data = self.room_image, let uiImage = UIImage(data: data) {
+            PhotosPicker(selection: $viewModel.item, matching: .images, label: {
+                if let data = viewModel.roomImage, let uiImage = UIImage(data: data) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .clipShape(Circle())
@@ -44,26 +76,17 @@ struct CreateView: View {
                         .foregroundStyle(.secondary)
                 }
             })
-            .onChange(of: item) { newItem in
-                guard let newItem = newItem else { return }
-                
-                newItem.loadTransferable(type: Data.self) { result in
-                    switch result {
-                    case .success(let data):
-                        self.room_image = data
-                    case .failure(let error):
-                        print("Error loading image: \(error)")
-                    }
-                }
+            .onChange(of: viewModel.item) { newItem in
+                viewModel.loadImage(for: newItem)
             }
             
-            TextField( "ルーム名", text: self.$room_name)
+            TextField("ルーム名", text: $viewModel.roomName)
                 .padding()
             Spacer()
             
-            // 送信ボタン
             Button(action: {
-                addData()
+                viewModel.addData()
+                dismiss()
             }) {
                 Text("送信")
                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -77,19 +100,10 @@ struct CreateView: View {
             .padding(.top)
             
         }
+        .onAppear {
+            // onAppear内でViewModelの初期化を行う
+            viewModel.setup(model: modelContext)
+        }
         Spacer()
-        
-        
     }
-    func addData() {
-        let new = Room(room_name: self.room_name,room_image: self.room_image)
-        self.model.insert(new)
-        try! self.model.save()
-        
-        dismiss()
-    }
-}
-
-#Preview {
-    CreateView()
 }
