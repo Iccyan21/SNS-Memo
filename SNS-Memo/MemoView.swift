@@ -6,9 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
+import PhotosUI
+
 
 struct MemoView: View {
+    @Bindable var memo: Room
+    @State private var show: Bool = false
     @State private var messageText: String = ""
+    @State private var text = ""
+    @State private var sendTime = Date()
+    
     var body: some View {
         ZStack{
             Color(red: 0.875, green: 0.961, blue: 0.930)
@@ -47,20 +55,30 @@ struct MemoView: View {
                 .font(.title2)
                 
                 
-                // ここもfor文で回して表示
+                
                 HStack{
+                    
                     Spacer()
-                    Text("本能寺集合で")
-                        .padding(.all, 10)
-                        .background(Color.green)
-                        .cornerRadius(15)
-                        .foregroundColor(.white)
+                    VStack{
+                        ForEach(memo.memo){ memo in
+                            Text(memo.text)
+                                .padding(.all, 10)
+                                .background(Color.green)
+                                .cornerRadius(15)
+                                .foregroundColor(.white)
+                            Text(memo.sendTime, style: .time)
+                                .padding(.all, 10)
+                                .font(.subheadline)
+                            
+                        }
+                    }
+                    
                 }.padding()
                 
                 Spacer()
                 
                 HStack {
-                    TextField("メッセージを入力", text: $messageText)
+                    TextField("メッセージを入力", text: $text)
                         .padding(10)
                         .background(Color.white)
                         .cornerRadius(20)
@@ -71,7 +89,7 @@ struct MemoView: View {
                         .padding(.horizontal, 4)
                     
                     Button(action: {
-                        // ここにメッセージを送信するためのアクションを記述
+                        addMemo()
                     }) {
                         Image(systemName: "arrow.up.circle.fill")
                             .resizable()
@@ -88,8 +106,11 @@ struct MemoView: View {
             }
         }
     }
+    func addMemo(){
+        let new = Memo(text: self.text, sendTime: .now)
+        memo.memo.append(new)
+        
+        
+    }
 }
 
-#Preview {
-    MemoView()
-}

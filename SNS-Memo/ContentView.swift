@@ -36,18 +36,23 @@ struct ContentView: View {
                         }
                     } else {
                         ForEach(rooms){ room in
-                            HStack{
-                                Image(uiImage: UIImage(data: room.room_image!)!)
-                                    .resizable()
-                                    .clipShape(Circle())
-                                    .frame(width: 75, height: 75)
-                                
-                                VStack{
-                                    Text(room.room_name)
-                                }
+                            NavigationLink(destination: MemoView(memo: room)){
+                                HStack{
+                                    Image(uiImage: UIImage(data: room.room_image!)!)
+                                        .resizable()
+                                        .clipShape(Circle())
+                                        .frame(width: 75, height: 75)
+                                    
+                                    VStack{
+                                        Text(room.room_name)
+                                            .font(.headline)
+                                            .foregroundColor(.primary)
+                                        
+                                    }
+                                    Spacer()
+                                }.padding()
                             }
                         }
-                        
                     }
                 }
                 
