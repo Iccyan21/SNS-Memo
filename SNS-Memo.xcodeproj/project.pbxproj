@@ -16,6 +16,8 @@
 		471E47322BAF3001008B0AE7 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47312BAF3001008B0AE7 /* MemoView.swift */; };
 		471E47342BB00BDC008B0AE7 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47332BB00BDC008B0AE7 /* CreateView.swift */; };
 		471E47C82BC97527008B0AE7 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47C72BC97527008B0AE7 /* Model.swift */; };
+		471E47CC2BCE752A008B0AE7 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47CB2BCE752A008B0AE7 /* TermsView.swift */; };
+		471E47CE2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47CD2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		471E47312BAF3001008B0AE7 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
 		471E47332BB00BDC008B0AE7 /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 		471E47C72BC97527008B0AE7 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		471E47CB2BCE752A008B0AE7 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		471E47CD2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				471E47C72BC97527008B0AE7 /* Model.swift */,
 				471E472D2BABF9ED008B0AE7 /* TabBarView.swift */,
 				471E472F2BAC007F008B0AE7 /* SettingView.swift */,
+				471E47CD2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift */,
+				471E47CB2BCE752A008B0AE7 /* TermsView.swift */,
 				471E47312BAF3001008B0AE7 /* MemoView.swift */,
 				471E47332BB00BDC008B0AE7 /* CreateView.swift */,
 				471E47232BABF512008B0AE7 /* Assets.xcassets */,
@@ -152,8 +158,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				471E47CC2BCE752A008B0AE7 /* TermsView.swift in Sources */,
 				471E47C82BC97527008B0AE7 /* Model.swift in Sources */,
 				471E47322BAF3001008B0AE7 /* MemoView.swift in Sources */,
+				471E47CE2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift in Sources */,
 				471E47222BABF511008B0AE7 /* ContentView.swift in Sources */,
 				471E47302BAC007F008B0AE7 /* SettingView.swift in Sources */,
 				471E472E2BABF9ED008B0AE7 /* TabBarView.swift in Sources */,
