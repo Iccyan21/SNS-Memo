@@ -17,18 +17,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             VStack {
-                ZStack{
-                    Color.orange.edgesIgnoringSafeArea(.all)
-                    Text("ホーム")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .background(Color.orange)
-                        .padding()
-                }.frame(height: 50)
+               
                 // ここはもう少しデザインをカスタマイズ
-                TextField("キーワード",text: $inputText,prompt: Text("ルーム名で検索してください"))
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
                 
                 // ここをfor文で回して表示
                 VStack{
@@ -37,31 +27,36 @@ struct ContentView: View {
                             Text("ルームを作成しよう")
                         }
                     } else {
+                        
                         List{
-                            ForEach(rooms){ room in
-                                NavigationLink (destination: MemoView(viewModel: MemoViewModel(memo: room))){
-                                    HStack{
-                                        Image(uiImage: UIImage(data: room.room_image!)!)
-                                            .resizable()
-                                            .clipShape(Circle())
-                                            .frame(width: 60, height: 60)
-                                        
-                                        VStack{
-                                            Text(room.room_name)
-                                                .font(.headline)
-                                                .foregroundColor(.primary)
+                            Section{
+                                ForEach(rooms){ room in
+                                    NavigationLink (destination: MemoView(viewModel: MemoViewModel(memo: room))){
+                                        HStack{
+                                            Image(uiImage: UIImage(data: room.room_image!)!)
+                                                .resizable()
+                                                .clipShape(Circle())
+                                                .frame(width: 60, height: 60)
                                             
+                                            VStack{
+                                                Text(room.room_name)
+                                                    .font(.headline)
+                                                    .foregroundColor(.primary)
+                                                
+                                            }
+                                            Spacer()
                                         }
-                                        Spacer()
                                     }
                                 }
-                            }
-                            // 削除機能
-                            .onDelete{ IndexSet in
-                                IndexSet.forEach{ index in
-                                    let room = rooms[index]
-                                    model.delete(room)
+                                // 削除機能
+                                .onDelete{ IndexSet in
+                                    IndexSet.forEach{ index in
+                                        let room = rooms[index]
+                                        model.delete(room)
+                                    }
                                 }
+                            } header: {
+                                Text("ルーム")
                             }
                         }// List
                         .listStyle(.grouped)
@@ -87,7 +82,15 @@ struct ContentView: View {
                     .padding() // 必要に応じてパディングを調整
                 }
             }
-        }
+            .navigationTitle("ホーム")
+            .toolbarBackground(Color.orange, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarTitleDisplayMode(.inlineLarge)
+            // これで白色
+            .toolbarColorScheme(.dark)
+            
+        } // NavigationStack
+        
     }
 }
 
