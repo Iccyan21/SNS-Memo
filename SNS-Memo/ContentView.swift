@@ -26,33 +26,48 @@ struct ContentView: View {
                         .padding()
                 }.frame(height: 50)
                 // ここはもう少しデザインをカスタマイズ
-                TextField("キーワード",text: $inputText,prompt: Text("キーワードを入力してください"))
+                TextField("キーワード",text: $inputText,prompt: Text("ルーム名で検索してください"))
+                    .textFieldStyle(.roundedBorder)
                     .padding()
+                
                 // ここをfor文で回して表示
                 VStack{
                     if rooms.isEmpty{
                         NavigationLink(destination: CreateView()) {
-                            Text("アカウントを登録しよう")
+                            Text("ルームを作成しよう")
                         }
                     } else {
-                        ForEach(rooms){ room in
-                            NavigationLink (destination: MemoView(viewModel: MemoViewModel(memo: room))){
-                                HStack{
-                                    Image(uiImage: UIImage(data: room.room_image!)!)
-                                        .resizable()
-                                        .clipShape(Circle())
-                                        .frame(width: 75, height: 75)
-                                    
-                                    VStack{
-                                        Text(room.room_name)
-                                            .font(.headline)
-                                            .foregroundColor(.primary)
+                        List{
+                            ForEach(rooms){ room in
+                                NavigationLink (destination: MemoView(viewModel: MemoViewModel(memo: room))){
+                                    HStack{
+                                        Image(uiImage: UIImage(data: room.room_image!)!)
+                                            .resizable()
+                                            .clipShape(Circle())
+                                            .frame(width: 60, height: 60)
                                         
+                                        VStack{
+                                            Text(room.room_name)
+                                                .font(.headline)
+                                                .foregroundColor(.primary)
+                                            
+                                        }
+                                        Spacer()
                                     }
-                                    Spacer()
-                                }.padding()
+                                }
                             }
-                        }
+                            // 削除機能
+                            .onDelete{ IndexSet in
+                                IndexSet.forEach{ index in
+                                    let room = rooms[index]
+                                    model.delete(room)
+                                }
+                            }
+                        }// List
+                        .listStyle(.grouped)
+                        // Listの背景色を消す
+                        .scrollContentBackground(.hidden)
+                        .background(Color.white)
                     }
                 }
                 

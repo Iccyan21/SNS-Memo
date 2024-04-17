@@ -12,7 +12,7 @@ import SwiftData
 struct SNS_MemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabBarView()
                 .modelContainer(for: [Room.self,Memo.self])
         }
     }

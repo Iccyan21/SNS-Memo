@@ -72,16 +72,27 @@ struct CreateView: View {
                 } else {
                     Image(systemName: "photo.circle.fill")
                         .resizable()
-                        .frame(width: 60, height: 60)
+                        .frame(width: 150, height: 150)
                         .foregroundStyle(.secondary)
                 }
             })
+            
             .onChange(of: viewModel.item) { newItem in
                 viewModel.loadImage(for: newItem)
             }
-            
+   
             TextField("ルーム名", text: $viewModel.roomName)
                 .padding()
+                .font(.system(size: 20))  // フォントサイズを大きく設定
+                .padding(.horizontal)  // 横方向のパディングを追加してテキストフィールドを広げる
+                .frame(height: 50)  // 高さを指定して視覚的なサイズを大きくする
+                .overlay(
+                    Rectangle()  // 下線を追加
+                        .frame(height: 2)
+                        .padding(.top, 45),
+                    alignment: .bottomLeading
+                )
+                .padding(.horizontal, 20)  // 全体的なパディングを調整
             Spacer()
             
             Button(action: {
@@ -99,6 +110,8 @@ struct CreateView: View {
             }
             .padding(.top)
             
+            Spacer()
+            
         }
         .onAppear {
             // onAppear内でViewModelの初期化を行う
@@ -106,4 +119,8 @@ struct CreateView: View {
         }
         Spacer()
     }
+}
+
+#Preview {
+    CreateView()
 }
