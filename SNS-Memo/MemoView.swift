@@ -44,9 +44,7 @@ struct MemoView: View {
                         }) {
                             Image(systemName: "magnifyingglass").foregroundColor(.white)
                         }
-                        Button(action: {
-                            // オプションアクション
-                        }) {
+                        NavigationLink(destination: EditView(room: viewModel.memo)){
                             Image(systemName: "ellipsis").foregroundColor(.white)
                         }
                     }

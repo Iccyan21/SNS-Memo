@@ -83,6 +83,7 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("ホーム")
+    
             .toolbarBackground(Color.orange, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarTitleDisplayMode(.inlineLarge)

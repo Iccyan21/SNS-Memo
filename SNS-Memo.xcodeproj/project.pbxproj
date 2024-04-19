@@ -19,6 +19,7 @@
 		471E47CC2BCE752A008B0AE7 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47CB2BCE752A008B0AE7 /* TermsView.swift */; };
 		471E47CE2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47CD2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift */; };
 		471E47D42BD02E6D008B0AE7 /* MemoView-TestVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47D32BD02E6D008B0AE7 /* MemoView-TestVIew.swift */; };
+		471E47D82BD03F4C008B0AE7 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E47D72BD03F4C008B0AE7 /* EditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		471E47CB2BCE752A008B0AE7 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		471E47CD2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		471E47D32BD02E6D008B0AE7 /* MemoView-TestVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoView-TestVIew.swift"; sourceTree = "<group>"; };
+		471E47D72BD03F4C008B0AE7 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				471E47CD2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift */,
 				471E47CB2BCE752A008B0AE7 /* TermsView.swift */,
 				471E47312BAF3001008B0AE7 /* MemoView.swift */,
+				471E47D72BD03F4C008B0AE7 /* EditView.swift */,
 				471E47D32BD02E6D008B0AE7 /* MemoView-TestVIew.swift */,
 				471E47332BB00BDC008B0AE7 /* CreateView.swift */,
 				471E47232BABF512008B0AE7 /* Assets.xcassets */,
@@ -163,6 +166,7 @@
 			files = (
 				471E47CC2BCE752A008B0AE7 /* TermsView.swift in Sources */,
 				471E47C82BC97527008B0AE7 /* Model.swift in Sources */,
+				471E47D82BD03F4C008B0AE7 /* EditView.swift in Sources */,
 				471E47322BAF3001008B0AE7 /* MemoView.swift in Sources */,
 				471E47CE2BCFA4C8008B0AE7 /* PrivacyPolicyView.swift in Sources */,
 				471E47222BABF511008B0AE7 /* ContentView.swift in Sources */,
