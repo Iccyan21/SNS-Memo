@@ -30,24 +30,32 @@ struct ContentView: View {
                         
                         List{
                             Section{
-                                ForEach(rooms){ room in
-                                    NavigationLink (destination: MemoView(viewModel: MemoViewModel(memo: room))){
-                                        HStack{
-                                            Image(uiImage: UIImage(data: room.room_image!)!)
-                                                .resizable()
-                                                .clipShape(Circle())
-                                                .frame(width: 60, height: 60)
+                                ForEach(rooms) { room in
+                                    NavigationLink(destination: MemoView(viewModel: MemoViewModel(memo: room))) {
+                                        HStack {
+                                            if let imageData = room.room_image, let uiImage = UIImage(data: imageData) {
+                                                Image(uiImage: uiImage)
+                                                    .resizable()
+                                                    .clipShape(Circle())
+                                                    .frame(width: 60, height: 60)
+                                            } else {
+                                                Image(systemName: "photo.fill") // 画像がない場合の代替画像
+                                                    .resizable()
+                                                    .clipShape(Circle())
+                                                    .frame(width: 60, height: 60)
+                                                    .foregroundColor(.secondary)
+                                            }
                                             
-                                            VStack{
+                                            VStack {
                                                 Text(room.room_name)
                                                     .font(.headline)
                                                     .foregroundColor(.primary)
-                                                
                                             }
                                             Spacer()
                                         }
                                     }
                                 }
+
                                 // 削除機能
                                 .onDelete{ IndexSet in
                                     IndexSet.forEach{ index in

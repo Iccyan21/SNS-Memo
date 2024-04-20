@@ -11,17 +11,17 @@ import PhotosUI
 
 
 class MemoViewModel: ObservableObject {
-    @Published var memo: Room
+    @Published var room: Room
     @Published var text: String = ""
-    @State private var sendTime = Date()
+    @State  var sendTime = Date()
     
     init(memo: Room) {
-        self.memo = memo
+        self.room = memo
     }
     
     func addMemo() {
         let newMemo = Memo(text: self.text, sendTime: Date())
-        self.memo.memo.append(newMemo)
+        self.room.memo.append(newMemo)
         self.text = "" // テキストフィールドをクリア
     }
 }
@@ -36,7 +36,7 @@ struct MemoView: View {
                     .edgesIgnoringSafeArea(.all)
                 VStack{
                     HStack {
-                        Text(viewModel.memo.room_name)
+                        Text(viewModel.room.room_name)
                             .foregroundColor(.white)
                         Spacer()
                         Button(action: {
@@ -44,12 +44,12 @@ struct MemoView: View {
                         }) {
                             Image(systemName: "magnifyingglass").foregroundColor(.white)
                         }
-                        NavigationLink(destination: EditView(room: viewModel.memo)){
+                        NavigationLink(destination: EditView(room: viewModel.room)){
                             Image(systemName: "ellipsis").foregroundColor(.white)
                         }
                     }
                     .padding()
-                    ForEach(viewModel.memo.memo) { memo in
+                    ForEach(viewModel.room.memo) { memo in
                         HStack(alignment: .bottom){
                         
                         Spacer()

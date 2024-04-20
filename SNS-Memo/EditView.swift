@@ -16,10 +16,13 @@ class EditViewModel: ObservableObject {
     @Published var room_image: Data?
     @Published var item: PhotosPickerItem?
     
+    
+    // 編集読み込み
     init(room: Room) {
         self.room = room
         self.room_name = room.room_name
-
+        self.room_image = room.room_image  // ここで既存の画像データをセット
+    
     }
     
     // ビューモデルにモデルコンテキストを設定するためのメソッド。@Environmentから渡されたmodelContextを受け取り、内部プロパティに設定
@@ -30,10 +33,14 @@ class EditViewModel: ObservableObject {
     
     func updateData() {
         guard let model = model else { return }
-        let newRoom = Room(room_name: room_name, room_image: room_image)
-        model.insert(newRoom)
+        // 更新されたルームを作成
+        let updatedRoom = Room(room_name: room_name, room_image: room_image)
+        // モデルに変更を反映
+        model.insert(updatedRoom)
+        // 変更を保存
         try! model.save()
     }
+
     // 写真の読み込み
     func loadImage(for item: PhotosPickerItem?) {
         guard let item = item else { return }
@@ -128,8 +135,6 @@ struct EditView: View {
         .onAppear {
             // onAppear内でViewModelの初期化を行う
             viewModel.setup(model: modelContext)
-            viewModel.room_name = viewModel.room_name
-            viewModel.room_image = viewModel.room_image
         }
         Spacer()
     }
