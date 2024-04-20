@@ -11,36 +11,40 @@ import SwiftData
 
 class EditViewModel: ObservableObject {
     var model: ModelContext?
-    @Published var room: Room
+    @Published var room: Room?
     @Published var room_name: String
     @Published var room_image: Data?
     @Published var item: PhotosPickerItem?
     
     
     // 編集読み込み
-    init(room: Room) {
-        self.room = room
-        self.room_name = room.room_name
-        self.room_image = room.room_image  // ここで既存の画像データをセット
-    
+    init(room: Room? = nil) {
+        if let room = room{
+            self.room = room
+            self.room_name = room.room_name
+            self.room_image = room.room_image  // ここで既存の画像データをセット
+        } else {
+            self.room = nil
+            self.room_name = ""
+            self.room_image = nil
+        }
     }
     
-    // ビューモデルにモデルコンテキストを設定するためのメソッド。@Environmentから渡されたmodelContextを受け取り、内部プロパティに設定
+    func save() {
+        if let room = room {
+            // Edit the existing animal
+            room.room_name = room_name
+            room.room_image = room_image
+        }
+    }
+    
+    // ビューモデルにモデルコンテキストを設定するためのメソッド。
+    // @Environmentから渡されたmodelContextを受け取り、内部プロパティに設定
     
     func setup(model: ModelContext) {
         self.model = model
     }
     
-    func updateData() {
-        guard let model = model else { return }
-        // 更新されたルームを作成
-        let updatedRoom = Room(room_name: room_name, room_image: room_image)
-        // モデルに変更を反映
-        model.insert(updatedRoom)
-        // 変更を保存
-        try! model.save()
-    }
-
     // 写真の読み込み
     func loadImage(for item: PhotosPickerItem?) {
         guard let item = item else { return }
@@ -107,7 +111,7 @@ struct EditView: View {
                 Spacer()
                 
                 Button(action: {
-                    viewModel.updateData()
+                    viewModel.save()
                     dismiss()
                 }) {
                     Text("更新")
