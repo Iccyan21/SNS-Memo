@@ -11,13 +11,22 @@ import PhotosUI
 
 struct ContentView: View {
     @Environment (\.modelContext) var model
-    
-    @State var inputText = ""
+    @State private var searchText = ""
     @Query (animation: .snappy) var rooms: [Room]
+    
+    // 検索機能
+    var filteredRooms: [Room] {
+        if searchText.isEmpty {
+            return rooms
+        } else {
+            return rooms.filter { $0.room_name.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+    
     var body: some View {
         NavigationStack{
             VStack {
-               
+                
                 // ここはもう少しデザインをカスタマイズ
                 
                 // ここをfor文で回して表示
@@ -30,7 +39,7 @@ struct ContentView: View {
                         
                         List{
                             Section{
-                                ForEach(rooms) { room in
+                                ForEach(filteredRooms) { room in
                                     NavigationLink(destination: MemoView(viewModel: MemoViewModel(memo: room))) {
                                         HStack {
                                             if let imageData = room.room_image, let uiImage = UIImage(data: imageData) {
@@ -55,7 +64,7 @@ struct ContentView: View {
                                         }
                                     }
                                 }
-
+                                
                                 // 削除機能
                                 .onDelete{ IndexSet in
                                     IndexSet.forEach{ index in
@@ -91,7 +100,7 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("ホーム")
-    
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .toolbarBackground(Color.orange, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarTitleDisplayMode(.inlineLarge)

@@ -83,7 +83,7 @@ struct EditView: View {
                         Image(uiImage: uiImage)
                             .resizable()
                             .clipShape(Circle())
-                            .frame(width: 60, height: 60)
+                            .frame(width: 150, height: 150)
                     } else {
                         Image(systemName: "photo.circle.fill")
                             .resizable()
