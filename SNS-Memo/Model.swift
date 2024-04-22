@@ -6,7 +6,7 @@
 //
 
 import SwiftData
-import SwiftUI
+import Foundation
 
 // ルームモデル
 @Model
@@ -24,14 +24,19 @@ final class Room {
 
 // メモモデル
 @Model
-class Memo {
+final class Memo {
     var text: String
+    var image: Data?
     var sendTime: Date
+    var flag: Bool  // この行を追加してBool型のflagを含むようにする
     
     @Relationship var room: [Room]
-    init(text: String, sendTime: Date) {
+    init(text: String, image: Data? = nil, sendTime: Date, flag: Bool = true) {
         self.text = text
         self.sendTime = sendTime
+        self.image = image
+        self.flag = flag  
         self.room = []
     }
 }
+

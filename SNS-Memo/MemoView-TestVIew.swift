@@ -50,25 +50,58 @@ struct MemoView_TestVIew: View {
                         
                         Spacer()
                         
-                        
-                        
+             
                         HStack {
+                            Button(action: {
+                                // ここにアクションを記述
+                            }) {
+                                Image(systemName: "arrowshape.right.fill")
+                                    .foregroundColor(.blue)
+                                    .imageScale(.large)
+                            }
+                            
+                            Button(action: {
+                                // ここにアクションを記述
+                            }) {
+                                Image(systemName: "camera")
+                                    .foregroundColor(.gray)
+                                    .imageScale(.large)
+                            }
+                            
+                            Button(action: {
+                                // ここにアクションを記述
+                            }) {
+                                Image(systemName: "photo")
+                                    .foregroundColor(.gray)
+                                    .imageScale(.large)
+                            }
+                            
                             TextField("メッセージを入力", text: $inputText)
                                 .padding(10)
                                 .background(Color.white)
                                 .cornerRadius(20)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.gray, lineWidth: 0.5)
+                                        .stroke(Color.gray, lineWidth: 1)
                                 )
                                 .padding(.horizontal, 4)
                             
-                            
-                            
+                            Button(action: {
+                                // ここにアクションを記述
+                            }) {
+                                Image(systemName: "arrow.up.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 40, height: 40)
+                                    .background(Color.blue)
+                                    .clipShape(Circle())
+                                    .foregroundColor(.white)
+                            }
                         }
                         .padding(.horizontal)
                         .padding(.vertical, 8)
-                        
+                        .background(Color(white: 0.95))
+                
                     }
                     
                 }

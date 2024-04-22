@@ -13,6 +13,8 @@ import PhotosUI
 class MemoViewModel: ObservableObject {
     @Published var room: Room
     @Published var text: String = ""
+    @Published var image: Data?
+    @Published var flag: Bool = true
     @State  var sendTime = Date()
     
     init(memo: Room) {
@@ -20,9 +22,14 @@ class MemoViewModel: ObservableObject {
     }
     
     func addMemo() {
-        let newMemo = Memo(text: self.text, sendTime: Date())
+        let newMemo = Memo(text: self.text, image: image, sendTime: Date(),flag: self.flag)
         self.room.memo.append(newMemo)
         self.text = "" // テキストフィールドをクリア
+        self.image = nil // 画像をクリア
+    }
+    // Flag変更
+    func toggleFlag(){
+        self.flag.toggle()
     }
 }
 
@@ -49,48 +56,98 @@ struct MemoView: View {
                         }
                     }
                     .padding()
+                    
                     ForEach(viewModel.room.memo) { memo in
                         HStack(alignment: .bottom){
-                        
-                        Spacer()
-                        
-                            VStack(alignment: .trailing) {
-                                Text(memo.sendTime,style: .time)
-                                    .font(.caption2)
-                                    .foregroundColor(.secondary)
+                            
+                            if memo.flag {
+                                VStack(alignment: .trailing) {
+                                    Text(memo.sendTime, style: .time)
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                    Text(memo.text)
+                                        .bold()
+                                        .padding(10)
+                                        .foregroundColor(.white)
+                                        .background(Color.green)
+                                        .cornerRadius(25)
+                                        .frame(maxWidth: .infinity, alignment: .trailing) // 右寄せ
+                                }
+                                Spacer() // 右に寄せるためのスペーサー
                             }
-                            Text(memo.text)
-                                .bold()
-                                .padding(10)
-                                .foregroundColor(.white)
-                                .background(Color.green)
-                                .cornerRadius(25)
+                            // メッセージを左に寄せる場合
+                            if !memo.flag {
+                                Spacer() // 左に寄せるためのスペーサー
+                                VStack(alignment: .leading) {
+                                    Text(memo.sendTime, style: .time)
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                    Text(memo.text)
+                                        .bold()
+                                        .padding(10)
+                                        .foregroundColor(.white)
+                                        .background(Color.blue) // 左側は青で区別
+                                        .cornerRadius(25)
+                                        .frame(maxWidth: .infinity, alignment: .leading) // 左寄せ
+                                }
+                            }
+                            
+                        }
+                        if memo.flag {
+                            Spacer()
                         }
                     } .padding()
                     
                     Spacer()
                     
                     HStack {
+                        Button(action: {
+                            viewModel.toggleFlag()
+                        }) {
+                            Image(systemName: "arrowshape.right.fill")
+                                .foregroundColor(.blue)
+                                .imageScale(.large)
+                        }
+                        
+                        Button(action: {
+                            // ここにアクションを記述
+                        }) {
+                            Image(systemName: "camera")
+                                .foregroundColor(.gray)
+                                .imageScale(.large)
+                        }
+                        
+                        Button(action: {
+                            // ここにアクションを記述
+                        }) {
+                            Image(systemName: "photo")
+                                .foregroundColor(.gray)
+                                .imageScale(.large)
+                        }
+                        
                         TextField("メッセージを入力", text: $viewModel.text)
                             .padding(10)
                             .background(Color.white)
                             .cornerRadius(20)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color.gray, lineWidth: 0.5)
+                                    .stroke(Color.gray, lineWidth: 1)
                             )
                             .padding(.horizontal, 4)
                         
                         Button(action: viewModel.addMemo) {
                             Image(systemName: "arrow.up.circle.fill")
                                 .resizable()
+                                .scaledToFit()
                                 .frame(width: 40, height: 40)
-                                .background(Color.green)
+                                .background(Color.blue)
                                 .clipShape(Circle())
                                 .foregroundColor(.white)
                         }
-                        .padding(.trailing, 4)
                     }
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
+                    .background(Color(white: 0.95))
                 }
             }
             .navigationTitle("トークルーム")
