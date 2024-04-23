@@ -57,47 +57,61 @@ struct MemoView: View {
                     }
                     .padding()
                     
-                    ForEach(viewModel.room.memo) { memo in
-                        HStack(alignment: .bottom){
-                            
-                            if memo.flag {
-                                VStack(alignment: .trailing) {
-                                    Text(memo.sendTime, style: .time)
-                                        .font(.caption2)
-                                        .foregroundColor(.secondary)
-                                    Text(memo.text)
-                                        .bold()
-                                        .padding(10)
-                                        .foregroundColor(.white)
-                                        .background(Color.green)
-                                        .cornerRadius(25)
-                                        .frame(maxWidth: .infinity, alignment: .trailing) // 右寄せ
+                    ScrollView {
+                        ScrollViewReader { value in
+                            VStack {
+                                ForEach(viewModel.room.memo.sorted(by: { $0.sendTime < $1.sendTime }), id: \.id) { memo in
+                                    HStack(alignment: .bottom) {
+                                        if memo.flag {
+                                            VStack(alignment: .trailing) {
+                                                Text(memo.sendTime, style: .time)
+                                                    .font(.caption2)
+                                                    .foregroundColor(.secondary)
+                                                Text(memo.text)
+                                                    .bold()
+                                                    .padding(10)
+                                                    .foregroundColor(.white)
+                                                    .background(Color.green)
+                                                    .cornerRadius(25)
+                                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                            }
+                                            Spacer()
+                                        } else {
+                                            Spacer()
+                                            VStack(alignment: .leading) {
+                                                Text(memo.sendTime, style: .time)
+                                                    .font(.caption2)
+                                                    .foregroundColor(.secondary)
+                                                Text(memo.text)
+                                                    .bold()
+                                                    .padding(10)
+                                                    .foregroundColor(.white)
+                                                    .background(Color.blue)
+                                                    .cornerRadius(25)
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                            }
+                                        }
+                                    }
                                 }
-                                Spacer() // 右に寄せるためのスペーサー
                             }
-                            // メッセージを左に寄せる場合
-                            if !memo.flag {
-                                Spacer() // 左に寄せるためのスペーサー
-                                VStack(alignment: .leading) {
-                                    Text(memo.sendTime, style: .time)
-                                        .font(.caption2)
-                                        .foregroundColor(.secondary)
-                                    Text(memo.text)
-                                        .bold()
-                                        .padding(10)
-                                        .foregroundColor(.white)
-                                        .background(Color.blue) // 左側は青で区別
-                                        .cornerRadius(25)
-                                        .frame(maxWidth: .infinity, alignment: .leading) // 左寄せ
+                            .onAppear {
+                                // 最後のメモのIDにスクロール
+                                if let lastId = viewModel.room.memo.sorted(by: { $0.sendTime < $1.sendTime }).last?.id {
+                                    value.scrollTo(lastId, anchor: .bottom)
                                 }
                             }
-                            
+                            .onChange(of: viewModel.room.memo) { _ in
+                                // メモが更新されたときも最下部にスクロール
+                                DispatchQueue.main.async {
+                                    if let lastId = viewModel.room.memo.sorted(by: { $0.sendTime < $1.sendTime }).last?.id {
+                                        value.scrollTo(lastId, anchor: .bottom)
+                                    }
+                                }
+                            }
                         }
-                        if memo.flag {
-                            Spacer()
-                        }
-                    } .padding()
-                    
+                    }
+                    .padding()
+                        
                     Spacer()
                     
                     HStack {
