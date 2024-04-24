@@ -10,11 +10,10 @@ import SwiftData
 import PhotosUI
 
 struct ContentView: View {
-    @Environment (\.modelContext) var model
+    @Environment(\.modelContext) var model
     @State private var searchText = ""
-    @Query (animation: .snappy) var rooms: [Room]
+    @Query(animation: .snappy) var rooms: [Room]
     
-    // 検索機能
     var filteredRooms: [Room] {
         if searchText.isEmpty {
             return rooms
@@ -24,81 +23,19 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             VStack {
-                
-                // ここはもう少しデザインをカスタマイズ
-                
-                // ここをfor文で回して表示
-                VStack{
-                    if rooms.isEmpty{
-                        NavigationLink(destination: CreateView()) {
-                            Text("ルームを作成しよう")
-                        }
-                    } else {
-                        
-                        List{
-                            Section{
-                                ForEach(filteredRooms) { room in
-                                    NavigationLink(destination: MemoView(viewModel: MemoViewModel(memo: room))) {
-                                        HStack {
-                                            if let imageData = room.room_image, let uiImage = UIImage(data: imageData) {
-                                                Image(uiImage: uiImage)
-                                                    .resizable()
-                                                    .clipShape(Circle())
-                                                    .frame(width: 60, height: 60)
-                                            } else {
-                                                Image(systemName: "photo.fill") // 画像がない場合の代替画像
-                                                    .resizable()
-                                                    .clipShape(Circle())
-                                                    .frame(width: 60, height: 60)
-                                                    .foregroundColor(.secondary)
-                                            }
-                                            
-                                            VStack {
-                                                Text(room.room_name)
-                                                    .font(.headline)
-                                                    .foregroundColor(.primary)
-                                            }
-                                            Spacer()
-                                        }
-                                    }
-                                }
-                                
-                                // 削除機能
-                                .onDelete{ IndexSet in
-                                    IndexSet.forEach{ index in
-                                        let room = rooms[index]
-                                        model.delete(room)
-                                    }
-                                }
-                            } header: {
-                                Text("ルーム")
-                            }
-                        }// List
-                        .listStyle(.grouped)
-                        // Listの背景色を消す
-                        .scrollContentBackground(.hidden)
-                        .background(Color.white)
+                if rooms.isEmpty {
+                    NavigationLink(destination: CreateView()) {
+                        Text("ルームを作成しよう")
                     }
+                } else {
+                    RoomListView(filteredRooms: filteredRooms, deleteRoom: deleteRoom)
                 }
                 
                 Spacer()
-                
-                HStack {
-                    Spacer()
-                    NavigationLink(destination: CreateView()) {
-                        Image(systemName: "plus.circle")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.orange)
-                            .clipShape(Circle())
-                    }
-                    .padding() // 必要に応じてパディングを調整
-                }
-            }
+                createButton
+            } // VStack
             .navigationTitle("ホーム")
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .toolbarBackground(Color.orange, for: .navigationBar)
@@ -106,13 +43,96 @@ struct ContentView: View {
             .toolbarTitleDisplayMode(.inlineLarge)
             // これで白色
             .toolbarColorScheme(.dark)
-            
-        } // NavigationStack
-        
+        } // navigationStack
+    }
+    
+    var createButton: some View {
+        HStack {
+            Spacer()
+            NavigationLink(destination: CreateView()) {
+                Image(systemName: "plus.circle")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.orange)
+                    .clipShape(Circle())
+            }
+            .padding()
+        }
+    }
+    
+    func deleteRoom(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let room = rooms[index]
+            model.delete(room)
+        }
     }
 }
+
 
 #Preview {
     ContentView()
         .modelContainer(for: [Room.self,Memo.self])
+}
+
+struct RoomListView: View {
+    let filteredRooms: [Room]
+    var deleteRoom: (IndexSet) -> Void
+    
+    var body: some View {
+        List {
+            Section {
+                ForEach(filteredRooms) { room in
+                    NavigationLink(destination: MemoView(viewModel: MemoViewModel(memo: room))) {
+                        RoomRow(room: room)
+                    }
+                }
+                .onDelete(perform: deleteRoom)
+            } header: {
+                Text("ルーム")
+            }
+        }
+        .listStyle(.grouped)
+        .scrollContentBackground(.hidden)
+        .background(Color.white)
+    }
+}
+
+struct RoomRow: View {
+    let room: Room
+    
+    var body: some View {
+        HStack {
+            if let imageData = room.room_image, let uiImage = UIImage(data: imageData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: 60, height: 60)
+            } else {
+                Image(systemName: "photo.fill")
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: 60, height: 60)
+                    .foregroundColor(.secondary)
+            }
+            
+            VStack(alignment: .leading) {
+                Text(room.room_name)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                
+                if let lastMemo = room.memo.sorted(by: { $0.sendTime > $1.sendTime }).first {
+                    Text(lastMemo.text)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                    
+                    Text(lastMemo.sendTime, style: .time)
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
+            }
+        }
+    }
 }
