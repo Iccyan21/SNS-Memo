@@ -142,7 +142,7 @@ struct MemoView: View {
                                 .background(Color.blue)
                                 .clipShape(Circle())
                                 .foregroundColor(.white)
-                        }
+                        }.disabled(viewModel.text.isEmpty)
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 8)
@@ -170,25 +170,34 @@ struct MemoListView: View {
                     }.sorted(by: { $0.sendTime < $1.sendTime }), id: \.id) { memo in
                         HStack(alignment: .bottom) {
                             if memo.flag {
+                                
                                 VStack(alignment: .trailing) {
                                     
                                     Text(memo.sendTime, style: .time)
                                         .font(.caption2)
                                         .foregroundColor(.secondary)
-                                    if let image = memo.image, let uiImage = UIImage(data: image) {
-                                        Image(uiImage: uiImage)
-                                            .resizable()
-                                            .scaledToFit() // 画像のサイズを適切に調整
-                                            .frame(width: 200, height: 200) // 画像のフレームサイズ指定
-                                            .cornerRadius(15) // 角を丸く
+                                    
+                                    HStack{
+                                        
+                                        Spacer()
+                                        
+                                        if let image = memo.image, let uiImage = UIImage(data: image) {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .scaledToFit() // 画像のサイズを適切に調整
+                                                .frame(width: 200, height: 200) // 画像のフレームサイズ指定
+                                                .cornerRadius(15) // 角を丸く
+                                        }
+                                        if !memo.text.isEmpty {
+                                            Text(memo.text)
+                                                .bold()
+                                                .padding(10)
+                                                .foregroundColor(.white)
+                                                .background(Color.green)
+                                                .cornerRadius(25)
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                        }
                                     }
-                                    Text(memo.text)
-                                        .bold()
-                                        .padding(10)
-                                        .foregroundColor(.white)
-                                        .background(Color.green)
-                                        .cornerRadius(25)
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
                                 }
                                 Spacer()
                             } else {
@@ -197,13 +206,28 @@ struct MemoListView: View {
                                     Text(memo.sendTime, style: .time)
                                         .font(.caption2)
                                         .foregroundColor(.secondary)
-                                    Text(memo.text)
-                                        .bold()
-                                        .padding(10)
-                                        .foregroundColor(.white)
-                                        .background(Color.blue)
-                                        .cornerRadius(25)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    HStack{
+                                        if let image = memo.image, let uiImage = UIImage(data: image) {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .scaledToFit() // 画像のサイズを適切に調整
+                                                .frame(width: 200, height: 200) // 画像のフレームサイズ指定
+                                                .cornerRadius(15) // 角を丸く
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        if !memo.text.isEmpty {
+                                            Text(memo.text)
+                                                .bold()
+                                                .padding(10)
+                                                .foregroundColor(.white)
+                                                .background(Color.blue)
+                                                .cornerRadius(25)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                        }
+                                        
+                                    }
                                 }
                             }
                         }
