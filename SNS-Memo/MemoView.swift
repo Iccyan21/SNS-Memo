@@ -14,6 +14,7 @@ class MemoViewModel: ObservableObject {
     @Published var room: Room
     @Published var text: String = ""
     @Published var image: Data?
+    @Published var item: PhotosPickerItem?  // PhotosPickerItem を保持するためのプロパティ
     @Published var flag: Bool = true
     
     @State  var sendTime = Date()
@@ -40,8 +41,6 @@ struct MemoView: View {
     @StateObject var viewModel: MemoViewModel
     @State private var searchText = ""
     @State private var showSearchBar = false
-
-
     
     var body: some View {
         NavigationStack{
@@ -76,7 +75,7 @@ struct MemoView: View {
                     .padding()
                     
                     MemoListView(viewModel: viewModel, searchText: searchText)
-                        .padding()
+                    
                         
                     Spacer()
                     
@@ -96,12 +95,33 @@ struct MemoView: View {
                                 .imageScale(.large)
                         }
                         
-                        Button(action: {
-                            
-                        }) {
-                            Image(systemName: "photo")
-                                .foregroundColor(.gray)
-                                .imageScale(.large)
+                        PhotosPicker(
+                            selection: $viewModel.item,  // PhotosPickerItem? のバインディング
+                            matching: .images,
+                            label: {  // クロージャの開始
+                                Image(systemName: "photo")
+                                    .foregroundColor(.gray)
+                                    .imageScale(.large)
+                            }  // クロージャの終了
+                        )
+                        .onChange(of: viewModel.item) { newItem in
+                            // 選択された PhotosPickerItem から画像データを非同期でロードする
+                            guard let newItem = newItem else { return }
+                            newItem.loadTransferable(type: Data.self) { result in
+                                switch result {
+                                case .success(let data):
+                                    if let data = data {
+                                        DispatchQueue.main.async {
+                                            self.viewModel.image = data// 実際の画像データを更新
+                                            viewModel.addMemo()
+                                        }
+                                    } else {
+                                        print("画像データが空です。")
+                                    }
+                                case .failure(let error):
+                                    print("画像のロードに失敗しました: \(error)")
+                                }
+                            }
                         }
                         
                         TextField("メッセージを入力", text: $viewModel.text)
@@ -151,9 +171,17 @@ struct MemoListView: View {
                         HStack(alignment: .bottom) {
                             if memo.flag {
                                 VStack(alignment: .trailing) {
+                                    
                                     Text(memo.sendTime, style: .time)
                                         .font(.caption2)
                                         .foregroundColor(.secondary)
+                                    if let image = memo.image, let uiImage = UIImage(data: image) {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFit() // 画像のサイズを適切に調整
+                                            .frame(width: 200, height: 200) // 画像のフレームサイズ指定
+                                            .cornerRadius(15) // 角を丸く
+                                    }
                                     Text(memo.text)
                                         .bold()
                                         .padding(10)
