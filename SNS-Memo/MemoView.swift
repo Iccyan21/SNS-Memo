@@ -15,6 +15,7 @@ class MemoViewModel: ObservableObject {
     @Published var text: String = ""
     @Published var image: Data?
     @Published var flag: Bool = true
+    
     @State  var sendTime = Date()
     
     init(memo: Room) {
@@ -27,6 +28,8 @@ class MemoViewModel: ObservableObject {
         self.text = "" // テキストフィールドをクリア
         self.image = nil // 画像をクリア
     }
+    
+   
     // Flag変更
     func toggleFlag(){
         self.flag.toggle()
@@ -35,6 +38,11 @@ class MemoViewModel: ObservableObject {
 
 struct MemoView: View {
     @StateObject var viewModel: MemoViewModel
+    @State private var searchText = ""
+    @State private var showSearchBar = false
+
+
+    
     var body: some View {
         NavigationStack{
             
@@ -43,74 +51,32 @@ struct MemoView: View {
                     .edgesIgnoringSafeArea(.all)
                 VStack{
                     HStack {
-                        Text(viewModel.room.room_name)
-                            .foregroundColor(.white)
+                        if showSearchBar {
+                            TextField("Search...", text: $searchText)
+                                .padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(10)
+                                .transition(.move(edge: .top).combined(with: .opacity)) // アニメーションで表示
+                                .animation(.default, value: showSearchBar)
+                                
+                        }
                         Spacer()
                         Button(action: {
-                            // 検索アクション
+                            withAnimation {
+                                showSearchBar.toggle() // 検索バーの表示をトグルする
+                            }
                         }) {
                             Image(systemName: "magnifyingglass").foregroundColor(.white)
                         }
+                        .padding()
                         NavigationLink(destination: EditView(room: viewModel.room)){
                             Image(systemName: "ellipsis").foregroundColor(.white)
                         }
                     }
                     .padding()
                     
-                    ScrollView {
-                        ScrollViewReader { value in
-                            VStack {
-                                ForEach(viewModel.room.memo.sorted(by: { $0.sendTime < $1.sendTime }), id: \.id) { memo in
-                                    HStack(alignment: .bottom) {
-                                        if memo.flag {
-                                            VStack(alignment: .trailing) {
-                                                Text(memo.sendTime, style: .time)
-                                                    .font(.caption2)
-                                                    .foregroundColor(.secondary)
-                                                Text(memo.text)
-                                                    .bold()
-                                                    .padding(10)
-                                                    .foregroundColor(.white)
-                                                    .background(Color.green)
-                                                    .cornerRadius(25)
-                                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                            }
-                                            Spacer()
-                                        } else {
-                                            Spacer()
-                                            VStack(alignment: .leading) {
-                                                Text(memo.sendTime, style: .time)
-                                                    .font(.caption2)
-                                                    .foregroundColor(.secondary)
-                                                Text(memo.text)
-                                                    .bold()
-                                                    .padding(10)
-                                                    .foregroundColor(.white)
-                                                    .background(Color.blue)
-                                                    .cornerRadius(25)
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            .onAppear {
-                                // 最後のメモのIDにスクロール
-                                if let lastId = viewModel.room.memo.sorted(by: { $0.sendTime < $1.sendTime }).last?.id {
-                                    value.scrollTo(lastId, anchor: .bottom)
-                                }
-                            }
-                            .onChange(of: viewModel.room.memo) { _ in
-                                // メモが更新されたときも最下部にスクロール
-                                DispatchQueue.main.async {
-                                    if let lastId = viewModel.room.memo.sorted(by: { $0.sendTime < $1.sendTime }).last?.id {
-                                        value.scrollTo(lastId, anchor: .bottom)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .padding()
+                    MemoListView(viewModel: viewModel, searchText: searchText)
+                        .padding()
                         
                     Spacer()
                     
@@ -118,11 +84,10 @@ struct MemoView: View {
                         Button(action: {
                             viewModel.toggleFlag()
                         }) {
-                            Image(systemName: "arrowshape.right.fill")
+                            Image(systemName: viewModel.flag ? "arrowshape.right.fill" : "arrowshape.left.fill")
                                 .foregroundColor(.blue)
                                 .imageScale(.large)
                         }
-                        
                         Button(action: {
                             // ここにアクションを記述
                         }) {
@@ -132,7 +97,7 @@ struct MemoView: View {
                         }
                         
                         Button(action: {
-                            // ここにアクションを記述
+                            
                         }) {
                             Image(systemName: "photo")
                                 .foregroundColor(.gray)
@@ -172,3 +137,62 @@ struct MemoView: View {
     }
 }
 
+struct MemoListView: View {
+    @ObservedObject var viewModel: MemoViewModel
+    var searchText: String
+    
+    var body: some View {
+        ScrollView {
+            ScrollViewReader { value in
+                VStack {
+                    ForEach(viewModel.room.memo.filter { memo in
+                        searchText.isEmpty || memo.text.localizedCaseInsensitiveContains(searchText)
+                    }.sorted(by: { $0.sendTime < $1.sendTime }), id: \.id) { memo in
+                        HStack(alignment: .bottom) {
+                            if memo.flag {
+                                VStack(alignment: .trailing) {
+                                    Text(memo.sendTime, style: .time)
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                    Text(memo.text)
+                                        .bold()
+                                        .padding(10)
+                                        .foregroundColor(.white)
+                                        .background(Color.green)
+                                        .cornerRadius(25)
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                }
+                                Spacer()
+                            } else {
+                                Spacer()
+                                VStack(alignment: .leading) {
+                                    Text(memo.sendTime, style: .time)
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                    Text(memo.text)
+                                        .bold()
+                                        .padding(10)
+                                        .foregroundColor(.white)
+                                        .background(Color.blue)
+                                        .cornerRadius(25)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                            }
+                        }
+                    }
+                }
+                .onAppear {
+                    if let lastId = viewModel.room.memo.sorted(by: { $0.sendTime < $1.sendTime }).last?.id {
+                        value.scrollTo(lastId, anchor: .bottom)
+                    }
+                }
+                .onChange(of: viewModel.room.memo) {
+                    if let lastId = viewModel.room.memo.sorted(by: { $0.sendTime < $1.sendTime }).last?.id {
+                        value.scrollTo(lastId, anchor: .bottom)
+                    }
+                }
+            }
+        }
+        .padding()
+    }
+}

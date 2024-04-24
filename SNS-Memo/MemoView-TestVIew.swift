@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MemoView_TestVIew: View {
     @State var inputText = ""
+    @State private var searchText = ""
+    @State private var showSearchBar = false 
     var body: some View {
         Group{
             NavigationStack{
@@ -17,12 +19,23 @@ struct MemoView_TestVIew: View {
                         .edgesIgnoringSafeArea(.all)
                     VStack{
                         HStack{
+                            if showSearchBar {
+                                TextField("Search...", text: $searchText)
+                                    .padding()
+                                    .background(Color(.systemGray6))
+                                    .cornerRadius(10)
+                                    .transition(.move(edge: .top).combined(with: .opacity)) // アニメーションで表示
+                                    .animation(.default, value: showSearchBar)
+                            }
                             Spacer()
                             Button(action: {
-                                // 検索アクション
+                                withAnimation {
+                                    showSearchBar.toggle() // 検索バーの表示をトグルする
+                                }
                             }) {
                                 Image(systemName: "magnifyingglass").foregroundColor(.white)
                             }
+                            .padding()
                             Button(action: {
                                 // オプションアクション
                             }) {
