@@ -13,12 +13,12 @@ struct TabBarView: View {
             ContentView()
                 .tabItem {
                     Image(systemName: "house")
-                    Text("ホーム")
+                    Text("HomeTab")
                 }
             SettingView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
-                    Text("設定")
+                    Text("SettingTab")
                 }
             
         }

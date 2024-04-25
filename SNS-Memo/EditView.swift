@@ -114,7 +114,7 @@ struct EditView: View {
                     viewModel.save()
                     dismiss()
                 }) {
-                    Text("更新")
+                    Text("Update Room")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .frame(height: 50)
                         .foregroundColor(.white)
@@ -128,7 +128,7 @@ struct EditView: View {
                 Spacer()
                 
             }
-            .navigationTitle("編集")
+            .navigationTitle("Edit Room")
             .toolbarBackground(Color.orange, for: .navigationBar)
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)

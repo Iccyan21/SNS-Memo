@@ -20,11 +20,11 @@ struct SettingView: View {
                     List{
                         Section{
                             NavigationLink(destination: Text("広告削除")) {
-                                Text("広告削除")
+                                Text("Delete Removal")
                                     .foregroundColor(.black)
                             }
                         } header: {
-                            Text("広告削除")
+                            Text("Delete Removal")
                         }
                         
                         
@@ -39,12 +39,12 @@ struct SettingView: View {
                                 let mailtoURL = URL(string: "mailto:\(email)?subject=\(encodedSubject)&body=\(encodedBody)")!
                                 openURL(mailtoURL)
                             }, label: {
-                                Text("ご意見・ご要望など")
+                                Text("Opinions, Requests")
                                     .foregroundColor(.black)
                             })
                             HStack{
-                                NavigationLink(destination: Text("レビューを書く")) {
-                                    Text("レビューを書く")
+                                NavigationLink(destination: Text("write a review")) {
+                                    Text("write a review")
                                         .foregroundColor(.black)
                                     
                                     Spacer()
@@ -54,23 +54,23 @@ struct SettingView: View {
                             }
                             
                             NavigationLink(destination: TermsView()) {
-                                Text("利用規約")
+                                Text("terms of service")
                                     .foregroundColor(.black)
                                 
                             }
                             NavigationLink(
                                 destination: PrivacyPolicyView(),
                                 label: {
-                                    Text("プライバシーポリシー").foregroundColor(.black)
+                                    Text("Privacy policy").foregroundColor(.black)
                                 })
                         } header: {
-                            Text("アプリ情報")
+                            Text("Information")
                         }
                     } //List
                     .listStyle(.grouped)
                 }
             }
-            .navigationTitle("設定")
+            .navigationTitle("SettingTitle")
             .toolbarBackground(Color.orange, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarTitleDisplayMode(.inlineLarge)

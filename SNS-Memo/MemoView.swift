@@ -124,7 +124,7 @@ struct MemoView: View {
                             }
                         }
                         
-                        TextField("メッセージを入力", text: $viewModel.text)
+                        TextField("Input Messege", text: $viewModel.text)
                             .padding(10)
                             .background(Color.white)
                             .cornerRadius(20)
@@ -149,7 +149,7 @@ struct MemoView: View {
                     .background(Color(white: 0.95))
                 }
             }
-            .navigationTitle("トークルーム")
+            .navigationTitle("TalkRoom")
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark)

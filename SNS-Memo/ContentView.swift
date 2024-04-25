@@ -27,7 +27,8 @@ struct ContentView: View {
             VStack {
                 if rooms.isEmpty {
                     NavigationLink(destination: CreateView()) {
-                        Text("ルームを作成しよう")
+                        // ローカライズ対応
+                        Text("RoomCreate")
                     }
                 } else {
                     RoomListView(filteredRooms: filteredRooms, deleteRoom: deleteRoom)
@@ -36,7 +37,7 @@ struct ContentView: View {
                 Spacer()
                 createButton
             } // VStack
-            .navigationTitle("ホーム")
+            .navigationTitle("Home Heder")
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .toolbarBackground(Color.orange, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
@@ -90,7 +91,7 @@ struct RoomListView: View {
                 }
                 .onDelete(perform: deleteRoom)
             } header: {
-                Text("ルーム")
+                Text("Room Name")
             }
         }
         .listStyle(.grouped)

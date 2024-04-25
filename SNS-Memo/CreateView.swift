@@ -73,7 +73,7 @@ struct CreateView: View {
                     viewModel.loadImage(for: newItem)
                 }
                 
-                TextField("ルーム名", text: $viewModel.roomName)
+                TextField("CreateRoomName", text: $viewModel.roomName)
                     .padding()
                     .font(.system(size: 20))  // フォントサイズを大きく設定
                     .padding(.horizontal)  // 横方向のパディングを追加してテキストフィールドを広げる
@@ -91,7 +91,7 @@ struct CreateView: View {
                     viewModel.addData()
                     dismiss()
                 }) {
-                    Text("送信")
+                    Text("CreateButton")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .frame(height: 50)
                         .foregroundColor(.white)
@@ -105,7 +105,7 @@ struct CreateView: View {
                 Spacer()
                 
             }
-            .navigationTitle("編集")
+            .navigationTitle("CreateTitle")
             .toolbarBackground(Color.orange, for: .navigationBar)
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
