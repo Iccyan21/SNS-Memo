@@ -7,13 +7,30 @@
 
 import SwiftUI
 import SwiftData
+import GoogleMobileAds
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        return true
+    }
+}
 
 @main
 struct SNS_MemoApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject var appOpen = AppOpen()
     var body: some Scene {
         WindowGroup {
             TabBarView()
                 .modelContainer(for: [Room.self,Memo.self])
+        }
+        // アプリ起動時に広告を起動
+        .onChange(of: appOpen.appOpenAdLoaded) { newValue in
+            appOpen.presentAppOpenAd()
         }
     }
     init() {

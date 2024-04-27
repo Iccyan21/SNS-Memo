@@ -41,6 +41,7 @@ struct MemoView: View {
     @StateObject var viewModel: MemoViewModel
     @State private var searchText = ""
     @State private var showSearchBar = false
+    @State private var isCameraPresented = false
     
     var body: some View {
         NavigationStack{
@@ -87,13 +88,18 @@ struct MemoView: View {
                                 .foregroundColor(.blue)
                                 .imageScale(.large)
                         }
+                        // カメラ機能
                         Button(action: {
-                            // ここにアクションを記述
+                            self.isCameraPresented = true
                         }) {
                             Image(systemName: "camera")
                                 .foregroundColor(.gray)
                                 .imageScale(.large)
                         }
+                        .sheet(isPresented: $isCameraPresented) {
+                            CameraView(viewModel: viewModel)
+                        }
+                        
                         
                         PhotosPicker(
                             selection: $viewModel.item,  // PhotosPickerItem? のバインディング
@@ -246,5 +252,45 @@ struct MemoListView: View {
             }
         }
         .padding()
+    }
+}
+// カメラ機能
+struct CameraView: UIViewControllerRepresentable {
+    @ObservedObject var viewModel: MemoViewModel
+    @Environment(\.presentationMode) var presentationMode
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = .camera
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) { }
+    
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        var parent: CameraView
+        
+        init(_ parent: CameraView) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let uiImage = info[.originalImage] as? UIImage, let imageData = uiImage.jpegData(compressionQuality: 1.0) {
+                DispatchQueue.main.async {
+                    self.parent.viewModel.image = imageData  // カメラで撮影した画像を保存
+                    self.parent.viewModel.addMemo()  // メモリストに画像を含む新しいメモを追加
+                }
+            }
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.presentationMode.wrappedValue.dismiss()
+        }
     }
 }

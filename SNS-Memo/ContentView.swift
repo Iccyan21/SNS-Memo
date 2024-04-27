@@ -36,6 +36,9 @@ struct ContentView: View {
                 
                 Spacer()
                 createButton
+                // バナー広告
+                BannerView()
+                    .frame(height: 60)
             } // VStack
             .navigationTitle("Home Heder")
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
