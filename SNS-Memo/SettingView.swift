@@ -69,6 +69,8 @@ struct SettingView: View {
                     } //List
                     .listStyle(.grouped)
                 }
+                AdMobBannerView()
+                    .frame(height: 60)
             }
             .navigationTitle("SettingTitle")
             .toolbarBackground(Color.orange, for: .navigationBar)

@@ -37,7 +37,7 @@ struct ContentView: View {
                 Spacer()
                 createButton
                 // バナー広告
-                BannerView()
+                AdMobBannerView()
                     .frame(height: 60)
             } // VStack
             .navigationTitle("Home Heder")

@@ -11,6 +11,7 @@ struct MemoView_TestVIew: View {
     @State var inputText = ""
     @State private var searchText = ""
     @State private var showSearchBar = false 
+    @ObservedObject var reward = Reward()
     var body: some View {
         Group{
             NavigationStack{
@@ -60,6 +61,16 @@ struct MemoView_TestVIew: View {
                                 .background(Color.green)
                                 .cornerRadius(25)
                         } .padding()
+                        
+                        Button(action: {
+                            reward.ShowReward()
+                        }) {
+                            Text(reward.rewardLoaded ? "リワード広告表示" : "読み込み中...")
+                        }
+                        .onAppear() {
+                            reward.LoadReward()
+                        }
+                        .disabled(!reward.rewardLoaded)
                         
                         Spacer()
                         
