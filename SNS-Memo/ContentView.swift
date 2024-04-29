@@ -122,19 +122,28 @@ struct RoomRow: View {
             }
             
             VStack(alignment: .leading) {
-                Text(room.room_name)
-                    .font(.headline)
-                    .foregroundColor(.primary)
-                
+                HStack{
+                    Text(room.room_name)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    if let lastMemo = room.memo.sorted(by: { $0.sendTime > $1.sendTime }).first {
+                        
+                        
+                        Spacer()
+                        
+                        Text(lastMemo.sendTime, style: .time)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                        
+                    }
+                }
+                .padding(.bottom, 10) 
+    
                 if let lastMemo = room.memo.sorted(by: { $0.sendTime > $1.sendTime }).first {
                     Text(lastMemo.text)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .lineLimit(1)
-                    
-                    Text(lastMemo.sendTime, style: .time)
-                        .font(.caption)
-                        .foregroundColor(.gray)
                 }
             }
         }

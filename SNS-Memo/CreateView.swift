@@ -11,9 +11,17 @@ import SwiftData
 
 class CreateViewModel: ObservableObject {
     var model: ModelContext?
+    @Environment(\.presentationMode) var presentationMode
     @Published var roomName: String = ""
     @Published var roomImage: Data?
     @Published var item: PhotosPickerItem?
+    @Published var messageToSend: String? // 送信するメッセージ
+    // エラーメッセージの公開
+    @Published var errorMessage: String?
+    @Published var isErrorPresented = false
+    @Environment(\.dismiss) var dismiss
+    @Published var shouldDismiss = false
+    
     
     // ビューモデルにモデルコンテキストを設定するためのメソッド。@Environmentから渡されたmodelContextを受け取り、内部プロパティに設定
     
@@ -22,14 +30,24 @@ class CreateViewModel: ObservableObject {
     }
     
     func addData() {
-        guard let model = model else { return }
+        guard let model = model, !roomName.isEmpty, let roomImage = roomImage else {
+            errorMessage = "部屋の名前と画像が必要です。"
+            isErrorPresented = true
+            return
+        }
+        
         let newRoom = Room(room_name: roomName, room_image: roomImage)
         model.insert(newRoom)
-        try! model.save()
+        shouldDismiss = true  // 画面を閉じるフラグをセット
     }
+
+
     // 写真の読み込み
     func loadImage(for item: PhotosPickerItem?) {
-        guard let item = item else { return }
+        guard let item = item else {
+            messageToSend = "写真が選択されていません。"
+            return
+        }
         
         item.loadTransferable(type: Data.self) { result in
             switch result {
@@ -89,7 +107,6 @@ struct CreateView: View {
                 
                 Button(action: {
                     viewModel.addData()
-                    dismiss()
                 }) {
                     Text("CreateButton")
                         .frame(minWidth: 0, maxWidth: .infinity)
@@ -100,8 +117,17 @@ struct CreateView: View {
                         .cornerRadius(25)
                         .padding(.horizontal)
                 }
-                .padding(.top)
-                
+                .onChange(of: viewModel.shouldDismiss) { shouldDismiss in
+                    if shouldDismiss {
+                        dismiss()
+                    }
+                }
+            
+                .alert("エラー", isPresented: $viewModel.isErrorPresented) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text(viewModel.errorMessage ?? "不明なエラーが発生しました。")
+                }
                 Spacer()
                 
             }
@@ -117,6 +143,8 @@ struct CreateView: View {
                 // onAppear内でViewModelの初期化を行う
                 viewModel.setup(model: modelContext)
             }
+            
+            
         }
         Spacer()
     }
