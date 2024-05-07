@@ -94,7 +94,7 @@ struct RoomListView: View {
                 }
                 .onDelete(perform: deleteRoom)
             } header: {
-                Text("Room Name")
+                Text("フレンド: \(filteredRooms.count)")
             }
         }
         .listStyle(.grouped)
@@ -137,7 +137,7 @@ struct RoomRow: View {
                         
                     }
                 }
-                .padding(.bottom, 10) 
+                .padding(.bottom, 10)
     
                 if let lastMemo = room.memo.sorted(by: { $0.sendTime > $1.sendTime }).first {
                     Text(lastMemo.text)

@@ -155,7 +155,7 @@ struct MemoView: View {
                     .background(Color(white: 0.95))
                 }
             }
-            .navigationTitle("TalkRoom")
+            .navigationTitle(viewModel.room.room_name)
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark)
