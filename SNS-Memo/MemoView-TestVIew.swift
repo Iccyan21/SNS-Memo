@@ -19,32 +19,23 @@ struct MemoView_TestVIew: View {
                     Color(red: 0.4549, green: 0.5804, blue: 0.7529)
                         .edgesIgnoringSafeArea(.all)
                     VStack{
-                        HStack{
-                            if showSearchBar {
+                        
+                        if showSearchBar {
+                            ZStack{
+                                Color(red: 0.176, green: 0.204, blue: 0.266)
+                                    .frame(height: 70)
+                                
                                 TextField("Search...", text: $searchText)
-                                    .padding()
+                                    .padding(8)
                                     .background(Color(.systemGray6))
                                     .cornerRadius(10)
                                     .transition(.move(edge: .top).combined(with: .opacity)) // アニメーションで表示
                                     .animation(.default, value: showSearchBar)
+                                    .padding(.horizontal,25) // 横幅にパディングを追加
                             }
-                            Spacer()
-                            Button(action: {
-                                withAnimation {
-                                    showSearchBar.toggle() // 検索バーの表示をトグルする
-                                }
-                            }) {
-                                Image(systemName: "magnifyingglass").foregroundColor(.white)
-                            }
-                            .padding()
-                            Button(action: {
-                                // オプションアクション
-                            }) {
-                                Image(systemName: "ellipsis").foregroundColor(.white)
-                            }
-                            
                         }
-                        .padding()
+                        
+                        
                         HStack(alignment: .bottom){
     
                             Spacer()
@@ -62,15 +53,7 @@ struct MemoView_TestVIew: View {
                                 .cornerRadius(25)
                         } .padding()
                         
-                        Button(action: {
-                            reward.ShowReward()
-                        }) {
-                            Text(reward.rewardLoaded ? "リワード広告表示" : "読み込み中...")
-                        }
-                        .onAppear() {
-                            reward.LoadReward()
-                        }
-                        .disabled(!reward.rewardLoaded)
+                        
                         
                         Spacer()
                         
@@ -130,17 +113,37 @@ struct MemoView_TestVIew: View {
                     
                 }
                 .navigationTitle("トークルーム")
-                .toolbar{
+                .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
-                            print("Hello")
+                            // ここにアクションを記述
                         }) {
-                            Image(systemName: "magnifyingglass").foregroundColor(.white)
+                            Image(systemName: "arrow.backward").foregroundColor(.white)
                         }
-                        
+                    }
+                    ToolbarItem(placement: .principal) {
+                        HStack {
+                            
+                            Spacer()
+                            Button(action: {
+                                withAnimation {
+                                    showSearchBar.toggle() // 検索バーの表示をトグルする
+                                }
+                            }) {
+                                Image(systemName: "magnifyingglass").foregroundColor(.white)
+                            }
+                            .padding()
+                            Button(action: {
+                                // オプションアクション
+                            }) {
+                                Image(systemName: "ellipsis").foregroundColor(.white)
+                            }
+                        }
+                        .padding(.horizontal)
                     }
                 }
-                .toolbarTitleDisplayMode(.inlineLarge)
+                .toolbarTitleDisplayMode(.inline)
+               
             }
         }
     }

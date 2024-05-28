@@ -73,7 +73,7 @@ struct EditView: View {
     }
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             VStack {
                 
                 Spacer()
@@ -84,30 +84,33 @@ struct EditView: View {
                             .resizable()
                             .clipShape(Circle())
                             .frame(width: 150, height: 150)
+                            .overlay(Circle().stroke(Color.green, lineWidth: 4))
                     } else {
                         Image(systemName: "photo.circle.fill")
                             .resizable()
                             .frame(width: 150, height: 150)
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
+                            .overlay(Circle().stroke(Color.green, lineWidth: 4))
                     }
                 })
-                
                 .onChange(of: viewModel.item) { newItem in
                     viewModel.loadImage(for: newItem)
                 }
                 
                 TextField("ルーム名", text: $viewModel.room_name)
                     .padding()
-                    .font(.system(size: 20))  // フォントサイズを大きく設定
-                    .padding(.horizontal)  // 横方向のパディングを追加してテキストフィールドを広げる
-                    .frame(height: 50)  // 高さを指定して視覚的なサイズを大きくする
+                    .font(.system(size: 20))
+                    .padding(.horizontal)
+                    .frame(height: 50)
                     .overlay(
-                        Rectangle()  // 下線を追加
+                        Rectangle()
                             .frame(height: 2)
+                            .foregroundColor(Color.green)
                             .padding(.top, 45),
                         alignment: .bottomLeading
                     )
-                    .padding(.horizontal, 20)  // 全体的なパディングを調整
+                    .padding(.horizontal, 20)
+                
                 Spacer()
                 
                 Button(action: {
@@ -119,7 +122,7 @@ struct EditView: View {
                         .frame(height: 50)
                         .foregroundColor(.white)
                         .font(.title)
-                        .background(Color.blue)
+                        .background(Color.green)
                         .cornerRadius(25)
                         .padding(.horizontal)
                 }
@@ -129,19 +132,14 @@ struct EditView: View {
                 
             }
             .navigationTitle("Edit Room")
-            .toolbarBackground(Color.orange, for: .navigationBar)
+            .toolbarBackground(Color.green, for: .navigationBar)
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarTitleDisplayMode(.inlineLarge)
-            // これで白色
             .toolbarColorScheme(.dark)
         }
         .onAppear {
-            // onAppear内でViewModelの初期化を行う
             viewModel.setup(model: modelContext)
         }
-        Spacer()
-        
         .toolbar(.hidden, for: .tabBar)
     }
 }

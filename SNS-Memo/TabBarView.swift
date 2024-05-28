@@ -8,24 +8,35 @@
 import SwiftUI
 
 struct TabBarView: View {
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor.white
+        UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+        UITabBar.appearance().tintColor = UIColor.systemGreen
+    }
+    
     var body: some View {
-        TabView{
+        TabView {
             ContentView()
                 .tabItem {
-                    Image(systemName: "house")
-                    Text("HomeTab")
-                }
-        
-            SettingView()
-                .tabItem {
-                    Image(systemName: "gearshape.fill")
-                    Text("SettingTab")
+                    VStack {
+                        Image(systemName: "house")
+                        Text("HomeTab")
+                    }
                 }
             
+            SettingView()
+                .tabItem {
+                    VStack {
+                        Image(systemName: "gearshape.fill")
+                        Text("SettingTab")
+                    }
+                }
         }
+        .accentColor(Color.green) // LINE風の緑色
     }
 }
 
 #Preview {
     TabBarView()
 }
+

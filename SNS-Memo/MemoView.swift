@@ -50,34 +50,25 @@ struct MemoView: View {
                 Color(red: 0.4549, green: 0.5804, blue: 0.7529)
                     .edgesIgnoringSafeArea(.all)
                 VStack{
-                    HStack {
-                        if showSearchBar {
+                    
+                    if showSearchBar {
+                        ZStack {
+                            Color(red: 0.176, green: 0.204, blue: 0.266)
+                                .frame(height: 70)
+                            
                             TextField("Search...", text: $searchText)
-                                .padding()
+                                .padding(8)
                                 .background(Color(.systemGray6))
                                 .cornerRadius(10)
                                 .transition(.move(edge: .top).combined(with: .opacity)) // アニメーションで表示
                                 .animation(.default, value: showSearchBar)
+                                .padding(.horizontal, 25)
                                 
                         }
-                        Spacer()
-                        Button(action: {
-                            withAnimation {
-                                showSearchBar.toggle() // 検索バーの表示をトグルする
-                            }
-                        }) {
-                            Image(systemName: "magnifyingglass").foregroundColor(.white)
-                        }
-                        .padding()
-                        NavigationLink(destination: EditView(room: viewModel.room)){
-                            Image(systemName: "ellipsis").foregroundColor(.white)
-                        }
                     }
-                    .padding()
                     
                     MemoListView(viewModel: viewModel, searchText: searchText)
                     
-                        
                     Spacer()
                     
                     HStack {
@@ -155,7 +146,30 @@ struct MemoView: View {
                     .background(Color(white: 0.95))
                 }
             }
-            .navigationTitle(viewModel.room.room_name)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Text(viewModel.room.room_name)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        Spacer()
+                        
+                        Button(action: {
+                            withAnimation {
+                                showSearchBar.toggle() // 検索バーの表示をトグルする
+                            }
+                        }) {
+                            Image(systemName: "magnifyingglass").foregroundColor(.white)
+                        }
+                        .padding()
+                        
+                        NavigationLink(destination: EditView(room: viewModel.room)){
+                            Image(systemName: "ellipsis").foregroundColor(.white)
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+            }
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark)

@@ -27,7 +27,6 @@ struct ContentView: View {
             VStack {
                 if rooms.isEmpty {
                     NavigationLink(destination: CreateView()) {
-                        // ローカライズ対応
                         Text("RoomCreate")
                     }
                 } else {
@@ -36,18 +35,16 @@ struct ContentView: View {
                 
                 Spacer()
                 createButton
-                // バナー広告
                 AdMobBannerView()
                     .frame(height: 60)
-            } // VStack
+            }
             .navigationTitle("Home Heder")
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-            .toolbarBackground(Color.orange, for: .navigationBar)
+            .toolbarBackground(Color.green, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarTitleDisplayMode(.inlineLarge)
-            // これで白色
+            .toolbarTitleDisplayMode(.inline)
             .toolbarColorScheme(.dark)
-        } // navigationStack
+        }
     }
     
     var createButton: some View {
@@ -59,7 +56,7 @@ struct ContentView: View {
                     .frame(width: 50, height: 50)
                     .foregroundColor(.white)
                     .padding()
-                    .background(Color.orange)
+                    .background(Color.green)
                     .clipShape(Circle())
             }
             .padding()
@@ -73,7 +70,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 #Preview {
     ContentView()

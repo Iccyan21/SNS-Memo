@@ -11,72 +11,71 @@ struct SettingView: View {
     @Environment(\.openURL) var openURL
     
     var body: some View {
-        NavigationStack{
-            VStack{
-                
+        NavigationStack {
+            VStack {
                 Spacer()
                 
-                VStack{
-                    List{
-                        Section{
+                VStack {
+                    List {
+                        Section {
                             NavigationLink(destination: Text("広告削除")) {
                                 Text("Delete Removal")
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.primary)
                             }
                         } header: {
                             Text("Delete Removal")
+                                .foregroundColor(.green)
                         }
                         
-                        
-                        Section{
+                        Section {
                             Button(action: {
-                                // ここにメーラーを起動するコードを書く
-                                let email = "ashitagogo123@gmail.com" // 送信先のメールアドレス
-                                let subject = "ご意見・ご要望" // メールの件名
-                                let body = "ご意見・ご要望など、お気軽にお寄せください。" // メールの本文
+                                let email = "ashitagogo123@gmail.com"
+                                let subject = "ご意見・ご要望"
+                                let body = "ご意見・ご要望など、お気軽にお寄せください。"
                                 let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
                                 let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
                                 let mailtoURL = URL(string: "mailto:\(email)?subject=\(encodedSubject)&body=\(encodedBody)")!
                                 openURL(mailtoURL)
                             }, label: {
                                 Text("Opinions, Requests")
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.primary)
                             })
-                            HStack{
+                            
+                            HStack {
                                 NavigationLink(destination: Text("write a review")) {
                                     Text("write a review")
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.primary)
                                     
                                     Spacer()
-                                    
-                                    
                                 }
                             }
                             
                             NavigationLink(destination: TermsView()) {
                                 Text("terms of service")
-                                    .foregroundColor(.black)
-                                
+                                    .foregroundColor(.primary)
                             }
+                            
                             NavigationLink(
                                 destination: PrivacyPolicyView(),
                                 label: {
-                                    Text("Privacy policy").foregroundColor(.black)
+                                    Text("Privacy policy").foregroundColor(.primary)
                                 })
                         } header: {
                             Text("Information")
+                                .foregroundColor(.green)
                         }
-                    } //List
+                    }
                     .listStyle(.grouped)
+                    .background(Color(UIColor.systemGray6))
                 }
+                
                 AdMobBannerView()
                     .frame(height: 60)
             }
             .navigationTitle("SettingTitle")
-            .toolbarBackground(Color.orange, for: .navigationBar)
+            .toolbarBackground(Color.green, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarTitleDisplayMode(.inlineLarge)
-            // これで白色
+            .toolbarTitleDisplayMode(.inline)
             .toolbarColorScheme(.dark)
         }
     }
