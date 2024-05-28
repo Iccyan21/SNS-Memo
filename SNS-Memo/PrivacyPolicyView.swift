@@ -15,6 +15,7 @@ struct PrivacyPolicyView: View {
                     .padding()
             }
         }
+        .toolbar(.hidden, for: .tabBar)
         .navigationTitle("PrivacyPolicy Title")
     }
 }

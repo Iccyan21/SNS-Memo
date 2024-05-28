@@ -24,6 +24,7 @@
 		471E48112BD9F9C6008B0AE7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 471E48132BD9F9C6008B0AE7 /* Localizable.strings */; };
 		471E48282BDB4ACA008B0AE7 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E48272BDB4ACA008B0AE7 /* Banner.swift */; };
 		471E482E2BDE6D42008B0AE7 /* Reward.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471E482D2BDE6D42008B0AE7 /* Reward.swift */; };
+		47C8867A2C05DCA3006C2A68 /* TabBatTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C886792C05DCA2006C2A68 /* TabBatTestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		471E48242BDA4122008B0AE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		471E48272BDB4ACA008B0AE7 /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		471E482D2BDE6D42008B0AE7 /* Reward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reward.swift; sourceTree = "<group>"; };
+		47C886792C05DCA2006C2A68 /* TabBatTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBatTestView.swift; sourceTree = "<group>"; };
 		6BFFEE170291C3BC0848B950 /* Pods-SNS-Memo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SNS-Memo.debug.xcconfig"; path = "Target Support Files/Pods-SNS-Memo/Pods-SNS-Memo.debug.xcconfig"; sourceTree = "<group>"; };
 		8F635CB30CED54512163838E /* Pods-SNS-Memo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SNS-Memo.release.xcconfig"; path = "Target Support Files/Pods-SNS-Memo/Pods-SNS-Memo.release.xcconfig"; sourceTree = "<group>"; };
 		A0BB7A11CB4EDB51C232BDCC /* Pods_SNS_Memo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SNS_Memo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +112,7 @@
 				471E47332BB00BDC008B0AE7 /* CreateView.swift */,
 				471E47232BABF512008B0AE7 /* Assets.xcassets */,
 				471E47252BABF512008B0AE7 /* Preview Content */,
+				47C886792C05DCA2006C2A68 /* TabBatTestView.swift */,
 			);
 			path = "SNS-Memo";
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				471E47302BAC007F008B0AE7 /* SettingView.swift in Sources */,
 				471E472E2BABF9ED008B0AE7 /* TabBarView.swift in Sources */,
 				471E47342BB00BDC008B0AE7 /* CreateView.swift in Sources */,
+				47C8867A2C05DCA3006C2A68 /* TabBatTestView.swift in Sources */,
 				471E47202BABF511008B0AE7 /* SNS_MemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

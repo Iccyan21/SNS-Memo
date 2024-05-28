@@ -160,6 +160,7 @@ struct MemoView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark)
         } // NavigationStack
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 

@@ -141,6 +141,8 @@ struct EditView: View {
             viewModel.setup(model: modelContext)
         }
         Spacer()
+        
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 

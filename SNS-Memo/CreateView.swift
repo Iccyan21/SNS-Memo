@@ -92,7 +92,7 @@ struct CreateView: View {
                 }
                 
                 TextField("CreateRoomName", text: $viewModel.roomName)
-                    .padding()
+          
                     .font(.system(size: 20))  // フォントサイズを大きく設定
                     .padding(.horizontal)  // 横方向のパディングを追加してテキストフィールドを広げる
                     .frame(height: 50)  // 高さを指定して視覚的なサイズを大きくする
@@ -145,7 +145,8 @@ struct CreateView: View {
             }
             
             
-        }
+        } .toolbar(.hidden, for: .tabBar)
+        
         Spacer()
     }
 }

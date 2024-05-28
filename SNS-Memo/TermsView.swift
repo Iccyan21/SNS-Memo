@@ -16,6 +16,7 @@ struct TermsView: View {
             }
             .padding()
         }
+        .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Terms of service Title")
     }
 }

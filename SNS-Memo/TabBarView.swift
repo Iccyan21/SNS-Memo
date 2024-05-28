@@ -15,6 +15,7 @@ struct TabBarView: View {
                     Image(systemName: "house")
                     Text("HomeTab")
                 }
+        
             SettingView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
