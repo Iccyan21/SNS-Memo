@@ -51,6 +51,12 @@ struct MemoView_TestVIew: View {
                                 .foregroundColor(.white)
                                 .background(Color.green)
                                 .cornerRadius(25)
+                            
+                            Image("Shibainu")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
                         } .padding()
                         
                         

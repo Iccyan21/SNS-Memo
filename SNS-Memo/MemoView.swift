@@ -222,36 +222,61 @@ struct MemoListView: View {
                                 }
                                 Spacer()
                             } else {
-                                Spacer()
+                                // 相手のメッセージ
                                 VStack(alignment: .leading) {
-                                    Text(memo.sendTime, style: .time)
-                                        .font(.caption2)
-                                        .foregroundColor(.secondary)
-                                    HStack{
-                                        if let image = memo.image, let uiImage = UIImage(data: image) {
+                                    HStack(alignment: .top) {
+                                        // プロフィール画像を表示
+                                        if let imageData = viewModel.room.room_image, let uiImage = UIImage(data: imageData) {
                                             Image(uiImage: uiImage)
                                                 .resizable()
-                                                .scaledToFit() // 画像のサイズを適切に調整
-                                                .frame(width: 200, height: 200) // 画像のフレームサイズ指定
-                                                .cornerRadius(15) // 角を丸く
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 40, height: 40)
+                                                .clipShape(Circle())
+                                                .padding(.trailing, 8)
+                                               
+                                        } else {
+                                            Image(systemName: "person.circle")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 40, height: 40)
+                                                .clipShape(Circle())
+                                                .padding(.trailing, 8)
+                                              
                                         }
                                         
-                                        Spacer()
-                                        
-                                        if !memo.text.isEmpty {
-                                            Text(memo.text)
-                                                .bold()
-                                                .padding(10)
-                                                .foregroundColor(.white)
-                                                .background(Color.blue)
-                                                .cornerRadius(25)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                        VStack(alignment: .leading) {
+                                            if let image = memo.image, let uiImage = UIImage(data: image) {
+                                                    Image(uiImage: uiImage)
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 200, height: 200)
+                                                        .cornerRadius(15)
+                                                        .padding(.top,-30)
+                                                        .padding(.bottom,-20)
+                                            }
+                                            
+                                            if !memo.text.isEmpty {
+                                                Text(memo.text)
+                                                    .bold()
+                                                    .padding(10)
+                                                    .foregroundColor(.white)
+                                                    .background(Color.blue)
+                                                    .cornerRadius(15)
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                            }
+                                            
+                                            Text(memo.sendTime, style: .time)
+                                                .font(.caption2)
+                                                .foregroundColor(.secondary)
                                         }
-                                        
                                     }
                                 }
+                                Spacer()
                             }
                         }
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 10)
+                
                     }
                 }
                 .onAppear {
